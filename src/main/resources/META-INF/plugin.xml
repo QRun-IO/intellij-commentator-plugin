@@ -24,8 +24,6 @@
    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
    <id>com.kingsrook.intellij-commentator-plugin</id>
 
-   <version>1.5.0</version>
-
    <!-- Public plugin name should be written in Title Case.
         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
    <name>Kingsrook Commentator</name>
@@ -75,7 +73,7 @@
       or more lines, if you are making a multi-line comment.</li>
       <li>To trigger the action, just hit its hotkey / keyboard shortcut.  By default, this is <b>F6</b> (but of course you can
       customize that under Preferences, Keymap).</li>
-      <li>Alternatively, you can select it from the <b>Code</b> menu:  <b>Create Flower Box Comment</b></li>
+      <li>Alternatively, you can select it from the Tools → Kingsrook Commentator menu:  <b>Create Flower Box Comment</b></li>
     </ul>
     <p><i>Note that, at this time, only <code>/</code> (slash) is supported as a comment character.  Future versions of
     this plugin may include language-specific comment characters, and/or preferences to customize the character used.</i></p>
@@ -111,7 +109,7 @@ public Address withCity(String city)
     <li>copy the code</li>
     <li>paste it</li>
     <li>select the pasted code</li>
-    <li>open <b>SmartSubstitute</b> (from the Edit → Find menu)</li>
+    <li>open <b>SmartSubstitute</b> (from the Tools → Kingsrook Commentator)</li>
     <li>tell it to replace <u>city</u> with <u>state</u></li>
     </ul>
     <p>The result you'll get is, in the selected code, both the literal values you entered for find and replace will be substituted
@@ -130,8 +128,6 @@ public Address withCity(String city)
    <depends>com.intellij.modules.platform</depends>
    <depends>com.intellij.modules.java</depends>
 
-   <idea-version since-build="222.3345.118"/>
-
    <!-- Extension points defined by the plugin.
         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
    <extensions defaultExtensionNs="com.intellij">
@@ -140,15 +136,27 @@ public Address withCity(String city)
 
    <extensions defaultExtensionNs="com.intellij">
       <applicationService serviceImplementation="com.kingsrook.intellijcommentatorplugin.settings.CommentatorSettingsState"/>
-   </extensions>
 
-   <extensions defaultExtensionNs="com.intellij">
+      <!-- PSI listener to detect new methods -->
+      <psi.treeChangeListener implementation="com.kingsrook.intellijcommentatorplugin.MethodCommentInjector"/>
+
+      <checkinHandlerFactory implementation="com.kingsrook.intellijcommentatorplugin.CommitViewSelectFactory"/>
+
+      <lang.documentationProvider
+            language="JAVA"
+            implementationClass="com.kingsrook.intellijcommentatorplugin.CustomJavadocProvider"
+            order="first"/>
+
       <applicationConfigurable
             parentId="tools"
             instance="com.kingsrook.intellijcommentatorplugin.settings.CommentatorSettingsConfigurable"
             id="org.intellij.sdk.settings.AppSettingsConfigurable"
             displayName="Kingsrook Commentator"/>
    </extensions>
+
+   <projectListeners>
+      <listener class="com.kingsrook.intellijcommentatorplugin.MethodCommentInjector" topic="com.intellij.psi.PsiTreeChangeListener"/>
+   </projectListeners>
 
    <actions>
       <group id="com.kingsrook.intellijcommentatorplugin.KingsrookCommentatorGroup" text="Kingsrook Commentator" popup="true" icon="/META-INF/pluginMenuIcon.svg">

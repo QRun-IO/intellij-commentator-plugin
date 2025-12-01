@@ -43,6 +43,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.sun.xml.bind.v2.TODO;
 import org.apache.commons.lang3.tuple.Pair;
 
 
@@ -105,8 +106,8 @@ public class GetSetWithAction extends AbstractKRCommentatorEditorAction
          ///////////////////////////////////////////////////////////////////////
          String selectedLinesText = document.getText(textRange);
 
-         PsiElement  element      = (PsiElement) event.getDataContext().getData("psi.Element");
-         PsiJavaFile parentOfType = PsiTreeUtil.getParentOfType(element, PsiJavaFile.class);
+         // PsiElement  element      = event.getDataContext().getData(CommonDataKeys.PSI_ELEMENT);
+         // PsiJavaFile parentOfType = PsiTreeUtil.getParentOfType(element, PsiJavaFile.class);
 
          // JavaRecursiveElementWalkingVisitor visitor = new J
 
@@ -261,7 +262,8 @@ public class GetSetWithAction extends AbstractKRCommentatorEditorAction
       return "\n"
          + "\n"
          + "   /*******************************************************************************\n"
-         + "    ** Getter for " + fieldName + "\n"
+         + "    * Getter for " + fieldName + "\n"
+         + "    * @see #with" + ucFirst(fieldName) + "(" + fieldType.replaceFirst("<.*", "") + ")\n"
          + "    *******************************************************************************/\n"
          + "   public " + fieldType + " get" + ucFirst(fieldName) + "()\n"
          + "   {\n"
@@ -280,7 +282,8 @@ public class GetSetWithAction extends AbstractKRCommentatorEditorAction
       return "\n"
          + "\n"
          + "   /*******************************************************************************\n"
-         + "    ** Setter for " + fieldName + "\n"
+         + "    * Setter for " + fieldName + "\n"
+         + "    * @see #with" + ucFirst(fieldName) + "(" + fieldType.replaceFirst("<.*", "") + ")\n"
          + "    *******************************************************************************/\n"
          + "   public void set" + ucFirst(fieldName) + "(" + fieldType + " " + fieldName + ")\n"
          + "   {\n"
@@ -299,7 +302,12 @@ public class GetSetWithAction extends AbstractKRCommentatorEditorAction
       return "\n"
          + "\n"
          + "   /*******************************************************************************\n"
-         + "    ** Fluent setter for " + fieldName + "\n"
+         + "    * Fluent setter for " + fieldName + "\n"
+         + "    *\n"
+         + "    * @param " + fieldName + "\n"
+         + "    * TODO document this property\n"
+         + "    *\n"
+         + "    * @return this\n"
          + "    *******************************************************************************/\n"
          + "   public " + (isStatic ? "void" : className) + " with" + ucFirst(fieldName) + "(" + fieldType + " " + fieldName + ")\n"
          + "   {\n"

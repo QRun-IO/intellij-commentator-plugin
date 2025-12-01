@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.kingsrook"
-version = "1.5.0-SNAPSHOT"
+version = "1.4.7-SNAPSHOT"
 
 repositories {
   mavenCentral()
@@ -13,7 +13,6 @@ repositories {
           url = uri("https://repo.clojars.org/")
       }
 }
-
 
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
@@ -35,8 +34,11 @@ tasks {
   }
 
   patchPluginXml {
-    sinceBuild.set("232")
-    untilBuild.set("242.*")
+    sinceBuild.set("241") // note, a previous upload gave us a warning to not include a wildcard here.
+    // note, a previous upload told us we could just omit this and then would have no "until"...
+    // but, then, when i built, it seemed to ONLY support the "since" version.  So, forget this -
+    // just live with that warning, and hopefully don't always have to update when IJ does.
+    untilBuild.set("300.*")
   }
 
   signPlugin {
