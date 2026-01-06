@@ -21,6 +21,7 @@ public class CommentatorSettingsState implements PersistentStateComponent<Commen
 {
    public int wrapCommentMaxWidth = 96;
    public int wrapCommentMinWidth = 56;
+   public boolean autoWriteMethodHeaderCommentsField = true;
 
 
 

@@ -1,10 +1,10 @@
 package com.kingsrook.intellijcommentatorplugin.settings;
 
 
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import com.intellij.openapi.application.ApplicationBundle;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.ui.TitledSeparator;
 import com.intellij.ui.components.JBLabel;
@@ -18,8 +18,9 @@ import com.intellij.util.ui.FormBuilder;
 public class CommentatorSettingsComponent
 {
    private final JPanel      myMainPanel;
-   private final JBTextField wrapCommentMaxWidthTextField = new JBTextField();
-   private final JBTextField wrapCommentMinWidthTextField = new JBTextField();
+   private final JBTextField wrapCommentMaxWidthTextField       = new JBTextField();
+   private final JBTextField wrapCommentMinWidthTextField       = new JBTextField();
+   private final JCheckBox   autoWriteMethodHeaderCommentsField = new JCheckBox();
 
 
 
@@ -50,6 +51,13 @@ public class CommentatorSettingsComponent
       int indentSize = 20;
       myMainPanel = FormBuilder.createFormBuilder()
 
+         .addComponent(new TitledSeparator("Header Comments"))
+         .addComponent(FormBuilder.createFormBuilder()
+            .setFormLeftIndent(indentSize)
+            .addLabeledComponent(new JBLabel("Automatically add to generated method stubs: "), autoWriteMethodHeaderCommentsField, 1, false)
+            .getPanel())
+
+         /* todo!
          .addComponent(new TitledSeparator("Wrap Comment"))
          .addComponent(FormBuilder.createFormBuilder()
             .setFormLeftIndent(indentSize)
@@ -62,6 +70,7 @@ public class CommentatorSettingsComponent
             .setFormLeftIndent(indentSize)
             .addComponentFillVertically(createComponent(), 0)
             .getPanel())
+         */
 
          .addComponentFillVertically(new JPanel(), 0)
          .getPanel();
@@ -129,6 +138,26 @@ public class CommentatorSettingsComponent
 
 
 
+   /***************************************************************************
+    **
+    ***************************************************************************/
+   public void setAutoWriteMethodHeaderCommentsField(boolean newValue)
+   {
+      autoWriteMethodHeaderCommentsField.setSelected(newValue);
+   }
+
+
+
+   /***************************************************************************
+    **
+    ***************************************************************************/
+   public boolean getAutoWriteMethodHeaderCommentsField()
+   {
+      return autoWriteMethodHeaderCommentsField.isSelected();
+   }
+
+
+
    private JPanel                           myMainComponent;
    private MyImporterAddEditDeleteListPanel importerPanel;
 
@@ -189,7 +218,7 @@ public class CommentatorSettingsComponent
 
          Splitter splitter = new Splitter(true);
          myMainComponent.add(splitter, BorderLayout.CENTER);
-         importerPanel = new MyImporterAddEditDeleteListPanel(ApplicationBundle.message("console.fold.console.lines"), ApplicationBundle.message("console.enter.substring.folded"));
+         importerPanel = new MyImporterAddEditDeleteListPanel("Auto-import these symbols as...", "Enter symbol name and what its import should be:");
          // myNegativePanel = new MyAddDeleteListPanel(ApplicationBundle.message("console.fold.exceptions"), ApplicationBundle.message("console.enter.substring.dont.fold"));
          splitter.setFirstComponent(importerPanel);
          // splitter.setSecondComponent(myNegativePanel);

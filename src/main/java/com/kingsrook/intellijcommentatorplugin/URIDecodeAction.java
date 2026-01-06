@@ -60,8 +60,14 @@ public class URIDecodeAction extends AbstractKRCommentatorEditorAction
          //////////////////////////////////////////////
          // Get all the required data from data keys //
          //////////////////////////////////////////////
-         Editor  editor  = event.getRequiredData(CommonDataKeys.EDITOR);
+         Editor  editor  = event.getData(CommonDataKeys.EDITOR);
          Project project = event.getProject();
+
+         if(editor == null)
+         {
+            System.out.println("Null editor - return with noop");
+            return;
+         }
 
          ///////////////////////////////////////////
          // Access document, caret, and selection //

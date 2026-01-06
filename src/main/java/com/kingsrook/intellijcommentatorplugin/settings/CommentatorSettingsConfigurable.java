@@ -63,6 +63,7 @@ public class CommentatorSettingsConfigurable implements Configurable
       boolean modified = false;
       modified |= !mySettingsComponent.getWrapCommentMaxWidthText().equals(String.valueOf(settings.wrapCommentMaxWidth));
       modified |= !mySettingsComponent.getWrapCommentMinWidthText().equals(String.valueOf(settings.wrapCommentMinWidth));
+      modified |= !mySettingsComponent.getAutoWriteMethodHeaderCommentsField() == settings.autoWriteMethodHeaderCommentsField;
 
       return modified;
    }
@@ -78,6 +79,7 @@ public class CommentatorSettingsConfigurable implements Configurable
       CommentatorSettingsState settings = CommentatorSettingsState.getInstance();
       settings.wrapCommentMaxWidth = Integer.parseInt(mySettingsComponent.getWrapCommentMaxWidthText());
       settings.wrapCommentMinWidth = Integer.parseInt(mySettingsComponent.getWrapCommentMinWidthText());
+      settings.autoWriteMethodHeaderCommentsField = mySettingsComponent.getAutoWriteMethodHeaderCommentsField();
    }
 
 
@@ -91,6 +93,7 @@ public class CommentatorSettingsConfigurable implements Configurable
       CommentatorSettingsState settings = CommentatorSettingsState.getInstance();
       mySettingsComponent.setWrapCommentMaxWidthText(String.valueOf(settings.wrapCommentMaxWidth));
       mySettingsComponent.setWrapCommentMinWidthText(String.valueOf(settings.wrapCommentMinWidth));
+      mySettingsComponent.setAutoWriteMethodHeaderCommentsField(settings.autoWriteMethodHeaderCommentsField);
    }
 
 

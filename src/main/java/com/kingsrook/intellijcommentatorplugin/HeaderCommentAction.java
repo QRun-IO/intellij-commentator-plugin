@@ -167,6 +167,7 @@ public class HeaderCommentAction extends AbstractKRCommentatorEditorAction
       rs.append(indent);
       rs.append(Objects.requireNonNullElse(subsequentLineIndent, ""));
       rs.append(commentChar);
+      // ... idk... rs.append(commentChar); // todo - option for this?  or param??
       rs.append(" ");
       rs.append("\n");
 
